@@ -41,9 +41,21 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Subject
+{/*        <Subject
             {...subjects}
-        />
+        />*/}
+
+          <header>
+              <h1>
+                  <a href="/" onClick={(e) => {
+                      console.log(e);
+                      // debugger;
+                      e.preventDefault();
+                  }}>{this.state.subject.title}</a>
+              </h1>
+              {this.state.subject.sub}
+          </header>
+
         <TOC
             data={this.state.contents}
         />
