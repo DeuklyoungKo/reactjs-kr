@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import TOC from './component/TOC';
 import Content from './component/Content';
-import Subject from './component/Subject';
-
 
 
 class App extends Component {
@@ -23,21 +21,40 @@ class App extends Component {
 
     }
 
+
+    movePage(e) {
+        e.preventDefault();
+        console.log(e);
+
+        this.setState(
+            {mode: 'welcome'}
+        )
+    }
+
+
   render(){
 
-        console.log('App Render');
+        const movePage = this.movePage.bind(this);
 
-        let _title, _desc = null;
+/*      const movePage = function (e) {
+          e.preventDefault();
+          console.log(e);
+          this.state.mode = 'welcome';
+      }.bind(this);*/
 
-        if ( this.state.mode === "welcome") {
-            _title = this.state.welcome.title;
-            _desc = this.state.welcome.desc;
-        } else if( this.state.mode === 'read') {
-            _title = this.state.contents[0].title;
-            _desc = this.state.contents[0].desc
-        }
+      console.log('App Render');
 
-        const subjects = {...this.state.subject};
+      let _title, _desc = null;
+
+      if (this.state.mode === "welcome") {
+          _title = this.state.welcome.title;
+          _desc = this.state.welcome.desc;
+      } else if (this.state.mode === 'read') {
+          _title = this.state.contents[0].title;
+          _desc = this.state.contents[0].desc
+      }
+
+      const subjects = {...this.state.subject};
 
     return (
       <div className="App">
@@ -47,11 +64,7 @@ class App extends Component {
 
           <header>
               <h1>
-                  <a href="/" onClick={(e) => {
-                      console.log(e);
-                      // debugger;
-                      e.preventDefault();
-                  }}>{this.state.subject.title}</a>
+                  <a href="/" onClick={movePage}>{this.state.subject.title}</a>
               </h1>
               {this.state.subject.sub}
           </header>
