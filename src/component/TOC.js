@@ -6,6 +6,7 @@ class TOC extends Component {
 
         const data = this.props.data;
 
+/*
         let lists = [];
         let i = 0;
         while (i < data.length) {
@@ -15,10 +16,23 @@ class TOC extends Component {
             i = i + 1;
         }
 
+        console.log(data);
+*/
+
+        const listsMap = data.map((key, index) =>(
+            <li key={data[index].id}>
+                <a href={"/content" + data[index].id}
+                   onClick={this.props.onChangePage} data-id={index}
+                >{data[index].title}</a>
+            </li>)
+        )
+
+        console.log(listsMap);
+
         return (
             <nav>
                 <ul>
-                    {lists}
+                    {listsMap}
                 </ul>
             </nav>
         )
