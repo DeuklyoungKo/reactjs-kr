@@ -11,6 +11,7 @@ class App extends Component {
         super(props);
         this.state = {
             mode: 'read',
+            selected_content_id: 2,
             subject: {title:'WEB', sub:'World Wide Web!'},
             welcome: {title:'Welcom', desc:'Hello, React!!!'},
             contents:[
@@ -33,9 +34,10 @@ class App extends Component {
 
     onChangePage2(e) {
         e.preventDefault();
-
+        // console.log(e.target.dataset.id);
         this.setState({
-            mode: 'read'
+            mode: 'read',
+            selected_content_id: e.target.dataset.id
         })
     }
 
@@ -58,8 +60,10 @@ class App extends Component {
           _title = this.state.welcome.title;
           _desc = this.state.welcome.desc;
       } else if (this.state.mode === 'read') {
-          _title = this.state.contents[0].title;
-          _desc = this.state.contents[0].desc
+
+          _title = this.state.contents[this.state.selected_content_id].title;
+          _desc = this.state.contents[this.state.selected_content_id].desc
+
       }
 
       const subjects = {...this.state.subject};
