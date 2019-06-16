@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import TOC from './component/TOC';
 import Content from './component/Content';
+import Subject from './component/Subject';
 
 
 class App extends Component {
@@ -9,11 +10,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 'welcome',
+            mode: 'read',
             subject: {title:'WEB', sub:'World Wide Web!'},
             welcome: {title:'Welcom', desc:'Hello, React!!!'},
             contents:[
-                {id:1, title:'HTML', desc:"HIML is for information"},
+                {id:1, title:'HTML', desc:"HTML is for information"},
                 {id:2, title:'CSS', desc:"CSS is for design"},
                 {id:3, title:'JavaScript', desc:"JavaScript is for interactive"},
             ]
@@ -22,19 +23,26 @@ class App extends Component {
     }
 
 
-    movePage(e) {
+    onChangePage(e) {
         e.preventDefault();
-        console.log(e);
-
-        this.setState(
-            {mode: 'welcome'}
-        )
+        this.setState({
+            mode: 'welcome'
+        })
     }
 
 
+    onChangePage2(e) {
+        e.preventDefault();
+
+        this.setState({
+            mode: 'read'
+        })
+    }
+
   render(){
 
-        const movePage = this.movePage.bind(this);
+      const onChangePage = this.onChangePage.bind(this);
+      const onChangePage2 = this.onChangePage2.bind(this);
 
 /*      const movePage = function (e) {
           e.preventDefault();
@@ -58,19 +66,15 @@ class App extends Component {
 
     return (
       <div className="App">
-{/*        <Subject
-            {...subjects}
-        />*/}
 
-          <header>
-              <h1>
-                  <a href="/" onClick={movePage}>{this.state.subject.title}</a>
-              </h1>
-              {this.state.subject.sub}
-          </header>
+        <Subject
+            {...subjects}
+            onChangePage = {onChangePage}
+        />
 
         <TOC
             data={this.state.contents}
+            onChangePage = {onChangePage2}
         />
         <Content
         title={_title}
