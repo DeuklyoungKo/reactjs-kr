@@ -4,10 +4,12 @@ class ReadContent extends Component {
     render() {
         console.log('ReadContent Render');
 
+        const { title, desc } = this.props.data
+
         return (
             <article>
-                <h2>{this.props.title}</h2>
-                {this.props.desc}
+                <h2>{title}</h2>
+                {desc}
             </article>
         )
     }

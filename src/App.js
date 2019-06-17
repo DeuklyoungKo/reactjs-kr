@@ -4,6 +4,7 @@ import ReadContent from './component/ReadContent';
 import CreateContent from './component/CreateContent';
 import Subject from './component/Subject';
 import Control from './component/Control';
+import UpdateContent from './component/UpdateContent';
 import './App.css';
 
 
@@ -76,23 +77,13 @@ class App extends Component {
         })
     }
 
+    getReadContent(){
+        return {title : this.state.contents[this.state.selected_content_id].title,
+        desc : this.state.contents[this.state.selected_content_id].desc}
+    }
 
-    render() {
-
-        const onChangePage = this.onChangePage.bind(this);
-        const onChangePage2 = this.onChangePage2.bind(this);
-        const onChangeMode = this.onChangeMode.bind(this);
-        const handleCreate = this.handleCreate.bind(this);
+    getContent() {
         const createContent = this.createContent.bind(this);
-        const subjects = {...this.state.subject};
-
-        /*      const movePage = function (e) {
-                  e.preventDefault();
-                  console.log(e);
-                  this.state.mode = 'welcome';
-              }.bind(this);*/
-
-        console.log('App Render');
 
         let _title, _desc, _article = null;
 
@@ -105,23 +96,42 @@ class App extends Component {
             />
         } else if (this.state.mode === 'read') {
 
-            _title = this.state.contents[this.state.selected_content_id].title;
-            _desc = this.state.contents[this.state.selected_content_id].desc
-            _article = <ReadContent
-                title={_title}
-                desc={_desc}
-            />
+            _article = <ReadContent data={this.getReadContent()} />
 
         } else if (this.state.mode === 'create') {
 
             _article = <CreateContent
-                // title={_title}
-                // desc={_desc}
                 createContent={createContent}
+            />
+
+        } else if (this.state.mode === 'update') {
+
+            _article = <UpdateContent
+                createContent={createContent}
+                data={this.getReadContent()}
             />
 
         }
 
+        return _article;
+    }
+
+    render() {
+
+        const onChangePage = this.onChangePage.bind(this);
+        const onChangePage2 = this.onChangePage2.bind(this);
+        const onChangeMode = this.onChangeMode.bind(this);
+        const handleCreate = this.handleCreate.bind(this);
+
+        const subjects = {...this.state.subject};
+
+        /*      const movePage = function (e) {
+                  e.preventDefault();
+                  console.log(e);
+                  this.state.mode = 'welcome';
+              }.bind(this);*/
+
+        console.log('App Render');
 
 
         return (
@@ -142,8 +152,7 @@ class App extends Component {
                     handleCreate={handleCreate}
                 />
 
-
-                {_article}
+                {this.getContent()}
             </div>
         );
     }
