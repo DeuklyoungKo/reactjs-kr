@@ -12,7 +12,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 'read',
+            mode: 'create',
             selected_content_id: 2,
             subject: {title: 'WEB', sub: 'World Wide Web!'},
             welcome: {title: 'Welcom', desc: 'Hello, React!!!'},
@@ -49,11 +49,19 @@ class App extends Component {
         })
     }
 
+
+    handleCreate(e) {
+        e.preventDefault();
+        this.onChangeMode('create');
+    }
+
     render() {
 
         const onChangePage = this.onChangePage.bind(this);
         const onChangePage2 = this.onChangePage2.bind(this);
         const onChangeMode = this.onChangeMode.bind(this);
+        const handleCreate = this.handleCreate.bind(this);
+        const subjects = {...this.state.subject};
 
         /*      const movePage = function (e) {
                   e.preventDefault();
@@ -90,7 +98,7 @@ class App extends Component {
 
         }
 
-        const subjects = {...this.state.subject};
+
 
         return (
             <div className="App">
@@ -107,6 +115,7 @@ class App extends Component {
 
                 <Control
                     onChangeMode={onChangeMode}
+                    handleCreate={handleCreate}
                 />
 
 
