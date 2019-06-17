@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import './App.css';
 import TOC from './component/TOC';
-import Content from './component/Content';
+import ReadContent from './component/ReadContent';
+import CreateContent from './component/CreateContent';
 import Subject from './component/Subject';
+import Control from './component/Control';
+import './App.css';
 
 
 class App extends Component {
@@ -12,12 +14,12 @@ class App extends Component {
         this.state = {
             mode: 'read',
             selected_content_id: 2,
-            subject: {title:'WEB', sub:'World Wide Web!'},
-            welcome: {title:'Welcom', desc:'Hello, React!!!'},
-            contents:[
-                {id:1, title:'HTML', desc:"HTML is for information"},
-                {id:2, title:'CSS', desc:"CSS is for design"},
-                {id:3, title:'JavaScript', desc:"JavaScript is for interactive"},
+            subject: {title: 'WEB', sub: 'World Wide Web!'},
+            welcome: {title: 'Welcom', desc: 'Hello, React!!!'},
+            contents: [
+                {id: 1, title: 'HTML', desc: "HTML is for information"},
+                {id: 2, title: 'CSS', desc: "CSS is for design"},
+                {id: 3, title: 'JavaScript', desc: "JavaScript is for interactive"},
             ]
         }
 
@@ -41,52 +43,77 @@ class App extends Component {
         })
     }
 
-  render(){
+    onChangeMode(mode) {
+        this.setState({
+            mode: mode
+        })
+    }
 
-      const onChangePage = this.onChangePage.bind(this);
-      const onChangePage2 = this.onChangePage2.bind(this);
+    render() {
 
-/*      const movePage = function (e) {
-          e.preventDefault();
-          console.log(e);
-          this.state.mode = 'welcome';
-      }.bind(this);*/
+        const onChangePage = this.onChangePage.bind(this);
+        const onChangePage2 = this.onChangePage2.bind(this);
+        const onChangeMode = this.onChangeMode.bind(this);
 
-      console.log('App Render');
+        /*      const movePage = function (e) {
+                  e.preventDefault();
+                  console.log(e);
+                  this.state.mode = 'welcome';
+              }.bind(this);*/
 
-      let _title, _desc = null;
+        console.log('App Render');
 
-      if (this.state.mode === "welcome") {
-          _title = this.state.welcome.title;
-          _desc = this.state.welcome.desc;
-      } else if (this.state.mode === 'read') {
+        let _title, _desc, _article = null;
 
-          _title = this.state.contents[this.state.selected_content_id].title;
-          _desc = this.state.contents[this.state.selected_content_id].desc
+        if (this.state.mode === "welcome") {
+            _title = this.state.welcome.title;
+            _desc = this.state.welcome.desc;
+            _article = <ReadContent
+                title={_title}
+                desc={_desc}
+            />
+        } else if (this.state.mode === 'read') {
 
-      }
+            _title = this.state.contents[this.state.selected_content_id].title;
+            _desc = this.state.contents[this.state.selected_content_id].desc
+            _article = <ReadContent
+                title={_title}
+                desc={_desc}
+            />
 
-      const subjects = {...this.state.subject};
+        } else if (this.state.mode === 'create') {
 
-    return (
-      <div className="App">
+            _article = <CreateContent
+                title={_title}
+                desc={_desc}
+            />
 
-        <Subject
-            {...subjects}
-            onChangePage = {onChangePage}
-        />
+        }
 
-        <TOC
-            data={this.state.contents}
-            onChangePage = {onChangePage2}
-        />
-        <Content
-        title={_title}
-        desc={_desc}
-        />
-      </div>
-    );
-  }
+        const subjects = {...this.state.subject};
+
+        return (
+            <div className="App">
+
+                <Subject
+                    {...subjects}
+                    onChangePage={onChangePage}
+                />
+
+                <TOC
+                    data={this.state.contents}
+                    onChangePage={onChangePage2}
+                />
+
+                <Control
+                    onChangeMode={onChangeMode}
+                />
+
+
+                {_article}
+            </div>
+        );
+    }
 }
 
 export default App;
