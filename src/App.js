@@ -55,12 +55,35 @@ class App extends Component {
         this.onChangeMode('create');
     }
 
+    getMaxValueOfContents(inContents, targetItem){
+        const tempValue = inContents.map(key => {
+            return key[targetItem];
+        })
+        return Math.max.apply(null, tempValue)+1;
+    }
+
+    getNewId() {
+        return this.getMaxValueOfContents(
+            this.state.contents,
+            'id'
+        )+1;
+    }
+
+    createContent(_title,_desc){
+        const contents = this.state.contents.concat({id: this.getNewId(), title: _title, desc: _desc});
+        this.setState({
+            contents: contents
+        })
+    }
+
+
     render() {
 
         const onChangePage = this.onChangePage.bind(this);
         const onChangePage2 = this.onChangePage2.bind(this);
         const onChangeMode = this.onChangeMode.bind(this);
         const handleCreate = this.handleCreate.bind(this);
+        const createContent = this.createContent.bind(this);
         const subjects = {...this.state.subject};
 
         /*      const movePage = function (e) {
@@ -92,8 +115,9 @@ class App extends Component {
         } else if (this.state.mode === 'create') {
 
             _article = <CreateContent
-                title={_title}
-                desc={_desc}
+                // title={_title}
+                // desc={_desc}
+                createContent={createContent}
             />
 
         }

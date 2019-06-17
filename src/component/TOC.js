@@ -1,6 +1,25 @@
 import React, {Component} from 'react';
 
 class TOC extends Component {
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+/*
+        console.log(
+            'should TOC Render',
+            nextProps.data,
+            this.props.data,
+            nextContext
+            );
+*/
+
+        if (nextProps.data === this.props.data) {
+            return false;
+        }
+
+        return true;
+
+    }
+
     render() {
         console.log('TOC Render');
 
