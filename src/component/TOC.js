@@ -38,11 +38,11 @@ class TOC extends Component {
         console.log(data);
 */
 
-        const listsMap = data.map((key, index) =>(
-            <li key={data[index].id}>
-                <a href={"/content" + data[index].id}
-                   onClick={this.props.onChangePage} data-id={index}
-                >{data[index].title}</a>
+        const listsMap = data.map((item, index) =>(
+            <li key={item.id}>
+                <a href={"/content" + item.id}
+                   onClick={this.props.onChangePage} data-id={item.id}
+                >{item.title}</a>
             </li>)
         )
 

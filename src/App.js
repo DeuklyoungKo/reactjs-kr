@@ -8,7 +8,7 @@ import UpdateContent from './component/UpdateContent';
 import './App.css';
 
 
-class App extends Component {
+export default class App extends Component {
 
     constructor(props) {
         super(props);
@@ -50,40 +50,62 @@ class App extends Component {
         })
     }
 
-
     handleCreate(e) {
         e.preventDefault();
         this.onChangeMode('create');
     }
 
-    getMaxValueOfContents(inContents, targetItem){
+    getMaxValueOfContents(inContents, targetItem) {
         const tempValue = inContents.map(key => {
             return key[targetItem];
         })
-        return Math.max.apply(null, tempValue)+1;
+        return Math.max.apply(null, tempValue) + 1;
     }
 
     getNewId() {
         return this.getMaxValueOfContents(
             this.state.contents,
             'id'
-        )+1;
+        ) + 1;
     }
 
-    createContent(_title,_desc){
-        const contents = this.state.contents.concat({id: this.getNewId(), title: _title, desc: _desc});
+    createContent(_title, _desc) {
+        const _newId = this.getNewId();
+        const contents = this.state.contents.concat({id: _newId, title: _title, desc: _desc});
         this.setState({
-            contents: contents
+            contents: contents,
+            mode: "read",
+            selected_content_id: _newId
         })
     }
 
-    getReadContent(){
-        return {title : this.state.contents[this.state.selected_content_id].title,
-        desc : this.state.contents[this.state.selected_content_id].desc}
+    updateContent(_id, _title, _desc) {
+        const contents = Array.from(this.state.contents).map((content, index) => {
+
+            if (content.id === _id) {
+                return {id: _id, title: _title, desc: _desc}
+            }
+
+            return content;
+        });
+
+        this.setState({
+            contents: contents,
+            mode: 'read'
+        })
     }
+
+    getReadContent() {
+        const result = this.state.contents.filter(
+            item => (item.id === Number(this.state.selected_content_id))
+        )[0];
+        return result
+    }
+
 
     getContent() {
         const createContent = this.createContent.bind(this);
+        const updateContent = this.updateContent.bind(this);
 
         let _title, _desc, _article = null;
 
@@ -96,7 +118,7 @@ class App extends Component {
             />
         } else if (this.state.mode === 'read') {
 
-            _article = <ReadContent data={this.getReadContent()} />
+            _article = <ReadContent data={this.getReadContent()}/>
 
         } else if (this.state.mode === 'create') {
 
@@ -107,7 +129,7 @@ class App extends Component {
         } else if (this.state.mode === 'update') {
 
             _article = <UpdateContent
-                createContent={createContent}
+                updateContent={updateContent}
                 data={this.getReadContent()}
             />
 
@@ -157,5 +179,3 @@ class App extends Component {
         );
     }
 }
-
-export default App;

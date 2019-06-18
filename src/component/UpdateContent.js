@@ -6,15 +6,17 @@ export default class UpdateContent extends Component {
         super(props);
 
         this.state = {
+            id: this.props.data.id,
             title: this.props.data.title,
             desc: this.props.data.desc
         }
     }
 
-    handleCreateContent(e){
+    handleUpdateContent(e){
         e.preventDefault();
 
-        this.props.createContent(
+        this.props.updateContent(
+            this.props.data.id,
             e.target.title.value,
             e.target.desc.value
         );
@@ -27,16 +29,6 @@ export default class UpdateContent extends Component {
         })
     }
 
-    onChangeTitle(e) {
-        this.inputFormHandler(e)
-    }
-
-
-    onChangeDesc(e) {
-        this.setState({
-            desc: e.target.value
-        })
-    }
 /*
     createContent(_title,_desc){
         console.log(_title, _desc);
@@ -46,31 +38,30 @@ export default class UpdateContent extends Component {
 
         console.log('CreateContent Render');
 
-        const handleCreateContent = this.handleCreateContent.bind(this);
-        const onChangeTitle = this.onChangeTitle.bind(this);
-        const onChangeDesc = this.onChangeDesc.bind(this);
+        const handleUpdateContent = this.handleUpdateContent.bind(this);
+        const inputFormHandler = this.inputFormHandler.bind(this);
         const { title, desc } = this.state;
 
         return (
             <article>
                 <h2>Update</h2>
                 <form action="/create_process" method="post"
-                      onSubmit={handleCreateContent}
+                      onSubmit={handleUpdateContent}
                 >
                     <p><input
                         type="text"
                         name="title"
                         placeholder="title"
                         value={title}
-                        onChange={onChangeTitle}
+                        onChange={inputFormHandler}
                     /></p>
                     <p>
                         <textarea
                             name="desc"
                             placeholder="description"
                             value={desc}
-                            onChange={onChangeDesc}
-                        ></textarea></p>
+                            onChange={inputFormHandler}
+                        /></p>
                     <p><input type="submit"/></p>
                 </form>
             </article>
