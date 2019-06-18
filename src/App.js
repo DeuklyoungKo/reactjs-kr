@@ -13,8 +13,8 @@ export default class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 'create',
-            selected_content_id: 2,
+            mode: 'welcome',
+            selected_content_id: 0,
             subject: {title: 'WEB', sub: 'World Wide Web!'},
             welcome: {title: 'Welcom', desc: 'Hello, React!!!'},
             contents: [
@@ -50,9 +50,19 @@ export default class App extends Component {
         })
     }
 
+
+
     handleCreate(e) {
         e.preventDefault();
         this.onChangeMode('create');
+    }
+
+    handleDelete(e) {
+
+        if (window.confirm("do you want to delete the data?")) {
+            this.deleteContent(this.selected_content_id);
+        };
+
     }
 
     getMaxValueOfContents(inContents, targetItem) {
@@ -81,17 +91,26 @@ export default class App extends Component {
 
     updateContent(_id, _title, _desc) {
         const contents = Array.from(this.state.contents).map((content, index) => {
-
             if (content.id === _id) {
                 return {id: _id, title: _title, desc: _desc}
             }
-
             return content;
         });
 
         this.setState({
             contents: contents,
             mode: 'read'
+        })
+    }
+
+    deleteContent() {
+        const contents = this.state.contents.filter(
+            item => (item.id !== Number(this.state.selected_content_id))
+        );
+
+        this.setState({
+            contents: contents,
+            mode: 'welcome'
         })
     }
 
@@ -107,14 +126,11 @@ export default class App extends Component {
         const createContent = this.createContent.bind(this);
         const updateContent = this.updateContent.bind(this);
 
-        let _title, _desc, _article = null;
+        let _article = null;
 
         if (this.state.mode === "welcome") {
-            _title = this.state.welcome.title;
-            _desc = this.state.welcome.desc;
             _article = <ReadContent
-                title={_title}
-                desc={_desc}
+                data={this.state.welcome}
             />
         } else if (this.state.mode === 'read') {
 
@@ -144,6 +160,7 @@ export default class App extends Component {
         const onChangePage2 = this.onChangePage2.bind(this);
         const onChangeMode = this.onChangeMode.bind(this);
         const handleCreate = this.handleCreate.bind(this);
+        const handleDelete = this.handleDelete.bind(this);
 
         const subjects = {...this.state.subject};
 
@@ -154,7 +171,6 @@ export default class App extends Component {
               }.bind(this);*/
 
         console.log('App Render');
-
 
         return (
             <div className="App">
@@ -172,6 +188,7 @@ export default class App extends Component {
                 <Control
                     onChangeMode={onChangeMode}
                     handleCreate={handleCreate}
+                    handleDelete={handleDelete}
                 />
 
                 {this.getContent()}

@@ -4,7 +4,7 @@ class ReadContent extends Component {
     render() {
         console.log('ReadContent Render');
 
-        const { title, desc } = this.props.data
+        const { title, desc } = this.props.data;
 
         return (
             <article>

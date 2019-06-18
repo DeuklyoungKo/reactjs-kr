@@ -37,14 +37,14 @@ export default class Control extends Component {
 */
 
         const handleCreate = this.props.handleCreate.bind(this);
-        // const handleCreate = this.handleCreate.bind(this);
+        const handleDelete = this.props.handleDelete.bind(this);
         const handleUpdate = this.handleUpdate.bind(this);
 
         return (
             <ul>
                 <li><a href="/create" onClick={handleCreate}>create</a></li>
                 <li><a href="/update" onClick={handleUpdate}>update</a></li>
-                <li><input type="button" value="delete"></input></li>
+                <li><input type="button" value="delete" onClick={handleDelete} /></li>
             </ul>
 
         );
